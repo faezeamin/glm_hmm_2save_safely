@@ -456,8 +456,8 @@ def get_input_labels(hparams):
         if hparams['analysis_experiment_name'] == 'modified_Bari': 
             for k in range(hparams['num_history_step'], 0, -1):
                 reward_labels.append('Rew_{j}'.format(j=k))
-                choice_RL_labels.append('Ch_RL_{j}'.format(j=k))
-                choice_ignrd_labels.append('Ch_Ignord_{j}'.format(j=k))
+                choice_RL_labels.append('Choice_{j}'.format(j=k))
+                choice_ignrd_labels.append('Ch_Null_{j}'.format(j=k))
 
             list_of_input_labels = [['bias'], reward_labels, choice_RL_labels, choice_ignrd_labels]
             input_labels = [elem for sublist in list_of_input_labels for elem in sublist]
@@ -563,7 +563,7 @@ def count_matches(arr1, arr2):
 def permute_array(arr1, arr2):
     """try all possible replacements of 0s with 1s, or 0s with 2s, or 1s with 2s"""
     best_count = count_matches(arr1, arr2)
-
+    best_i = False
     n_unique_elem = len(np.unique(arr2))
     for i in range(n_unique_elem):
         for j in range(n_unique_elem):

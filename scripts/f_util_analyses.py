@@ -231,3 +231,276 @@ def do_pca(data_4pca):
     # Print the variance explained by each principal component
     for i, variance in enumerate(variance_explained):
         print(f"PC{i+1} Variance Explained: {variance:.2%}")
+
+
+
+
+
+
+
+# def do_pca(data_4pca, hparams, clustering):
+
+#     '''clustering coould be for example based on true choice, or strategy state.'''
+
+#     from sklearn.decomposition import PCA
+#     from mpl_toolkits.mplot3d import Axes3D
+#     # %matplotlib notebook
+#     # %matplotlib auto
+#     # # Generate or load the data array
+#     # data = np.random.rand(100, 5)  # Replace with your own data
+    
+#     n_components = 5
+#     # Perform PCA
+#     if data_4pca.shape[1]<5:
+#         n_components = data_4pca.shape[1]
+
+#     pca = PCA(n_components=n_components)
+#     # pca = PCA()
+#     pca_data = pca.fit_transform(data_4pca)
+
+#     # Extract the PC1 and PC2 dimensions
+#     pc1 = pca_data[:, 0]
+#     pc2 = pca_data[:, 1]
+#     pc3 = pca_data[:, 3]
+
+#     # Create a 3D plot for PC1, PC2, and PC3
+#     fig = plt.figure()
+#     ax = fig.add_subplot(111, projection='3d')
+    
+
+#     # prepare data for plotting wrt clustering 
+#     clustering = clustering.squeeze()
+#     clusters = np.unique(clustering)
+#     for c in clusters:
+#         pc1_cluster = pc1[clustering == c]
+#         pc2_cluster = pc2[clustering == c]
+#         pc3_cluster = pc3[clustering == c]
+        
+#         ax.scatter(pc1_cluster, pc2_cluster, pc3_cluster, color=hparams['colors'][-1-c])
+
+#         # Set labels for the axes
+#         ax.set_xlabel('PC1')
+#         ax.set_ylabel('PC2')
+#         ax.set_zlabel('PC3')
+
+#         # Show the plot
+#     plt.show()
+#         # plot_name = 'uu'
+#         # save_plot(hparams, type_save= 'data-aspects', plot_name = plot_name)
+
+#         #  Plot the data in PC1 and PC2 dimensions
+#     for c in clusters:
+#         plt.scatter(pc1_cluster, pc2_cluster, color=hparams['colors'][-1-c])
+#         plt.xlabel('PC1')
+#         plt.ylabel('PC2')
+#         plt.title('Data in PC1 and PC2 Dimensions')
+#     plt.show()
+
+#         #  Plot the data in PC1 and PC2 dimensions
+#     for c in clusters:
+#         plt.scatter(pc1_cluster, pc3_cluster, color=hparams['colors'][-1-c])
+#         plt.xlabel('PC1')
+#         plt.ylabel('PC3')
+#         plt.title('Data in PC1 and PC3 Dimensions')
+#     plt.show()
+
+#         #  Plot the data in PC1 and PC2 dimensions
+#     for c in clusters:
+#         plt.scatter(pc2_cluster, pc3_cluster, color=hparams['colors'][-1-c])
+#         plt.xlabel('PC2')
+#         plt.ylabel('PC3')
+#         plt.title('Data in PC2 and PC3 Dimensions')
+#     plt.show()
+
+#     # Get the variance explained by each principal component
+#     variance_explained = pca.explained_variance_ratio_
+
+#     # Print the variance explained by each principal component
+#     for i, variance in enumerate(variance_explained):
+#         print(f"PC{i+1} Variance Explained: {variance:.2%}")
+
+
+
+
+
+# def do_pca(data_4pca, hparams, clustering):
+
+#     '''clustering coould be for example based on true choice, or strategy state.'''
+
+#     from sklearn.decomposition import PCA
+#     from mpl_toolkits.mplot3d import Axes3D
+#     # %matplotlib notebook
+#     # %matplotlib auto
+#     # # Generate or load the data array
+#     # data = np.random.rand(100, 5)  # Replace with your own data
+    
+#     n_components = 5
+#     # Perform PCA
+#     if data_4pca.shape[1]<5:
+#         n_components = data_4pca.shape[1]
+
+#     pca = PCA(n_components=n_components)
+#     # pca = PCA()
+#     pca_data = pca.fit_transform(data_4pca)
+
+#     # Extract the PC1 and PC2 dimensions
+#     pc1 = pca_data[:, 0]
+#     pc2 = pca_data[:, 1]
+#     pc3 = pca_data[:, 3]
+
+#     # Create a 3D plot for PC1, PC2, and PC3
+#     fig = plt.figure()
+#     ax = fig.add_subplot(111, projection='3d')
+    
+
+#     # prepare data for plotting wrt clustering 
+#     clustering = clustering.squeeze()
+#     clusters = np.unique(clustering)
+#     mm = 1
+
+#     for c in clusters:
+#         pc1_cluster = pc1[clustering == c]
+#         pc2_cluster = pc2[clustering == c]
+#         pc3_cluster = pc3[clustering == c]
+        
+#         ax.scatter(pc1_cluster, pc2_cluster, pc3_cluster, color=hparams['colors'][-1-c])
+
+#         # Set labels for the axes
+#         ax.set_xlabel('PC1')
+#         ax.set_ylabel('PC2')
+#         ax.set_zlabel('PC3')
+
+#         # Show the plot
+#     plt.show()
+#         # plot_name = 'uu'
+#         # save_plot(hparams, type_save= 'data-aspects', plot_name = plot_name)
+
+ 
+
+#     fig, axs = plt.subplots(1, 3, figsize=(18, 4))  # Create a subplot grid
+#     for c in clusters:
+#         pc1_cluster = pc1[clustering == c]
+#         pc2_cluster = pc2[clustering == c]
+#         pc3_cluster = pc3[clustering == c]
+
+#        #  Plot the data in PC1 and PC2 dimensions
+#         axs[0].scatter(pc1_cluster, pc2_cluster, color=hparams['colors'][-1-c])
+#         axs[0].set_xlabel('PC1')
+#         axs[0].set_ylabel('PC2')
+#         axs[0].set_title('Data in PC1 and PC2 Dimensions')
+
+
+#         #  Plot the data in PC1 and PC3 dimensions
+#         axs[1].scatter(pc1_cluster, pc3_cluster, color=hparams['colors'][-1-c])
+#         axs[1].set_xlabel('PC1')
+#         axs[1].set_ylabel('PC3')
+#         axs[1].set_title('Data in PC1 and PC3 Dimensions')
+
+
+#         #  Plot the data in PC2 and PC3 dimensions
+#         axs[2].scatter(pc2_cluster, pc3_cluster, color=hparams['colors'][-1-c])
+#         axs[2].set_xlabel('PC2')
+#         axs[2].set_ylabel('PC3')
+#         axs[2].set_title('Data in PC2 and PC3 Dimensions')
+
+#     # plt.tight_layout()
+#     plt.show()
+
+#     # Get the variance explained by each principal component
+#     variance_explained = pca.explained_variance_ratio_
+
+#     # Print the variance explained by each principal component
+#     for i, variance in enumerate(variance_explained):
+#         print(f"PC{i+1} Variance Explained: {variance:.2%}")
+
+
+
+def do_pca(data_4pca, colors, clustering):
+
+    '''clustering coould be for example based on true choice, or strategy state.'''
+
+    from sklearn.decomposition import PCA
+    from mpl_toolkits.mplot3d import Axes3D
+    # %matplotlib notebook
+    # %matplotlib auto
+    # # Generate or load the data array
+    # data = np.random.rand(100, 5)  # Replace with your own data
+    
+    n_components = 5
+    # Perform PCA
+    if data_4pca.shape[1]<5:
+        n_components = data_4pca.shape[1]
+
+    pca = PCA(n_components=n_components)
+    # pca = PCA()
+    pca_data = pca.fit_transform(data_4pca)
+
+    # Extract the PC1 and PC2 dimensions
+    pc1 = pca_data[:, 0]
+    pc2 = pca_data[:, 1]
+    pc3 = pca_data[:, 3]
+
+    # Create a 3D plot for PC1, PC2, and PC3
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    
+
+    # prepare data for plotting wrt clustering 
+    clustering = clustering.squeeze()
+    clusters = np.unique(clustering)
+    mm = 1
+
+    for c in clusters:
+        pc1_cluster = pc1[clustering == c]
+        pc2_cluster = pc2[clustering == c]
+        pc3_cluster = pc3[clustering == c]
+        
+        ax.scatter(pc1_cluster, pc2_cluster, pc3_cluster, color=colors[c])
+
+        # Set labels for the axes
+        ax.set_xlabel('PC1')
+        ax.set_ylabel('PC2')
+        ax.set_zlabel('PC3')
+
+        # Show the plot
+    plt.show()
+        # plot_name = 'uu'
+        # save_plot(hparams, type_save= 'data-aspects', plot_name = plot_name)
+
+ 
+
+    fig, axs = plt.subplots(1, 3, figsize=(18, 4))  # Create a subplot grid
+    for c in clusters:
+        pc1_cluster = pc1[clustering == c]
+        pc2_cluster = pc2[clustering == c]
+        pc3_cluster = pc3[clustering == c]
+
+       #  Plot the data in PC1 and PC2 dimensions
+        axs[0].scatter(pc1_cluster, pc2_cluster, color=colors[c])
+        axs[0].set_xlabel('PC1')
+        axs[0].set_ylabel('PC2')
+        axs[0].set_title('Data in PC1 and PC2 Dimensions')
+
+
+        #  Plot the data in PC1 and PC3 dimensions
+        axs[1].scatter(pc1_cluster, pc3_cluster, color=colors[c])
+        axs[1].set_xlabel('PC1')
+        axs[1].set_ylabel('PC3')
+        axs[1].set_title('Data in PC1 and PC3 Dimensions')
+
+
+        #  Plot the data in PC2 and PC3 dimensions
+        axs[2].scatter(pc2_cluster, pc3_cluster, color=colors[c])
+        axs[2].set_xlabel('PC2')
+        axs[2].set_ylabel('PC3')
+        axs[2].set_title('Data in PC2 and PC3 Dimensions')
+
+    # plt.tight_layout()
+    plt.show()
+
+    # Get the variance explained by each principal component
+    variance_explained = pca.explained_variance_ratio_
+
+    # Print the variance explained by each principal component
+    for i, variance in enumerate(variance_explained):
+        print(f"PC{i+1} Variance Explained: {variance:.2%}")

@@ -54,7 +54,7 @@ def plot_heatmap_of_pearson_corr_coeff_of_input_data(hparams, input_design_matri
     # plt.show()
 
 
-def get_dir_of_saving_plot(hparams, type_save):
+def get_dir_of_saving_file(hparams, type_save):
     """type_save can be from ['data-aspects', ...] """
     
     hparams['save_dir']
@@ -90,10 +90,19 @@ def get_dir_of_saving_plot(hparams, type_save):
 
 def save_plot(hparams, type_save, plot_name):
 
-    path_to_save = get_dir_of_saving_plot(hparams, type_save)
+    path_to_save = get_dir_of_saving_file(hparams, type_save)
     # Save the plot as a PNG file
     plt.savefig(os.path.join(path_to_save , plot_name), dpi=300, bbox_inches='tight')
 
+
+def save_file(hparams, type_save, file_name, file_to_save):
+    import pickle
+    path_to_save = get_dir_of_saving_file(hparams, type_save)
+    # Open the file in write mode
+    file_path = os.path.join(path_to_save, file_name)
+    with open(file_path, "wb") as file1:
+            # Write the data to the file
+        pickle.dump(file_to_save, file1)
 
 
 
@@ -176,7 +185,11 @@ def plot_weights_per_class_and_transition_matrix(hparams, weights, log_transitio
     num_categories = hparams['num_categories']
     input_dim = hparams['input_dim']
 
-    for c in range(num_categories):
+    # k=1
+    # plt.plot(range(input_dim), weights[k,c], marker='o', linestyle = '-',
+    #     color=cols[k], lw=1.5, label="state " + str(k+1) + "; class " + str(c+1))
+    
+    for c in range(1):#(num_categories):
         plt.subplot(num_categories+1, 1, c + 1)
         if c < num_categories-1:
             for k in range(num_states):
@@ -189,13 +202,13 @@ def plot_weights_per_class_and_transition_matrix(hparams, weights, log_transitio
 
         plt.axhline(y=0, color="k", alpha=0.5, ls="--")
         plt.yticks(fontsize=10)
-        plt.xlabel("covariate", fontsize=15)
-        if c == 0:
-            plt.ylabel("GLM weight", fontsize=15)
+        # plt.xlabel("covariate", fontsize=15)
+        # if c == 0:
+        plt.ylabel("GLM weight", fontsize=15)
         plt.xticks(range(input_dim), hparams['input_labels'], fontsize=12, rotation=90)
         plt.legend()
         plt.title("Weights; choice class : " + class_list[c], fontsize = 15)
-        # plt.ylim((-3,10))
+        plt.ylim((-12,28))
         
     plt.subplot(num_categories+1, 1, num_categories+1)
     learned_trans_mat = np.exp(log_transitions)[0]
@@ -220,7 +233,7 @@ def plot_LL_for_model_selection(test_ll, train_ll, test_ll_base, train_ll_base, 
     n_repeats = np.array(test_ll).shape[1]
     fig, ax = plt.subplots()
     cols = [["red","black"],["orange","blue"]]
-    labels = [["test_real","train_real"],["test_synth","train_synth"]]
+    labels = [["test","train"],["test_base","train_base"]]
 
     if kw == "both_data":
         test_set = [test_ll, test_ll_base]
@@ -233,11 +246,11 @@ def plot_LL_for_model_selection(test_ll, train_ll, test_ll_base, train_ll_base, 
         for i in range(2):
             # Calculate the mean of each array in the two lists
             means_test_ll = [np.mean(arr) for arr in test_set[i]]
-            sem_test_ll = [sem(arr) for arr in test_set[i]]
+            sem_test_ll = [np.std(arr) for arr in test_set[i]]
             sem_test_ll = np.nan_to_num(sem_test_ll, nan=0)
 
             means_train_ll = [np.mean(arr) for arr in train_set[i]]
-            sem_train_ll = [sem(arr) for arr in train_set[i]]
+            sem_train_ll = [np.std(arr) for arr in train_set[i]]
             sem_train_ll = np.nan_to_num(sem_train_ll, nan=0)
 
             for j in num_states_2cv:
@@ -256,11 +269,11 @@ def plot_LL_for_model_selection(test_ll, train_ll, test_ll_base, train_ll_base, 
         train_ll_ = np.array(train_ll)
         # Calculate the mean of each array in the two lists
         means_test_ll = [np.mean(arr) for arr in test_ll]
-        sem_test_ll = [sem(arr) for arr in test_ll]
+        sem_test_ll = [np.std(arr) for arr in test_ll]
         sem_test_ll = np.nan_to_num(sem_test_ll, nan=0)
 
         means_train_ll = [np.mean(arr) for arr in train_ll]
-        sem_train_ll = [sem(arr) for arr in train_ll]
+        sem_train_ll = [np.std(arr) for arr in train_ll]
         sem_train_ll = np.nan_to_num(sem_train_ll, nan=0)
 
         for i in num_states_2cv:
@@ -280,6 +293,86 @@ def plot_LL_for_model_selection(test_ll, train_ll, test_ll_base, train_ll_base, 
 
     plt.legend()
     plt.show()
+
+
+
+
+def plot_Relative_LL_for_model_selection(test_ll, train_ll, test_ll_base, train_ll_base, num_states_2cv, kw):
+    from scipy.stats import sem
+
+    n_repeats = np.array(test_ll).shape[1]
+    fig, ax = plt.subplots()
+    # cols = [["red","black"],["orange","blue"]]
+    # labels = [["test","train"],["test_base","train_base"]]
+
+    test_ll_ = np.array(test_ll)
+    train_ll_ = np.array(train_ll)
+
+    # Calculate the mean of each array in the two lists
+
+    # if kw == "both_data":
+    # test_set = [test_ll, test_ll_base]
+    # train_set = [train_ll, train_ll_base]
+
+    # test_ll_set_ = [np.array(test_ll), np.array(test_ll_base)]
+    # train_ll_set_ = [np.array(train_ll), np.array(train_ll_base)]
+
+    # means_test_ll = np.sum(test_ll_,axis=1)
+
+    # for i in range(2):
+        # Calculate the mean of each array in the two lists
+    means_test_ll = [np.mean(arr) for arr in test_ll]
+    sem_test_ll = [np.std(arr) for arr in test_ll]
+    sem_test_ll = np.nan_to_num(sem_test_ll, nan=0)
+
+    means_train_ll = [np.mean(arr) for arr in train_ll]
+    sem_train_ll = [np.std(arr) for arr in train_ll]
+    sem_train_ll = np.nan_to_num(sem_train_ll, nan=0)
+
+    means_test_ll_base = [np.mean(arr) for arr in test_ll_base]
+    means_train_ll_base = [np.mean(arr) for arr in train_ll_base]
+
+    for j in num_states_2cv:
+        ax.plot(np.ones((n_repeats,))*(j), test_ll_[j-1,:] - np.mean(means_test_ll_base),'or' , alpha=.25)
+        ax.plot(np.ones((n_repeats,))*(j), train_ll_[j-1,:] - np.mean(means_train_ll_base),'ok', alpha=.25)
+
+    # Plot the means and standard errors of the means of the arrays in the first list in order
+    ax.errorbar([num + .15 for num in num_states_2cv], means_test_ll-np.mean(np.array(means_test_ll_base)), yerr=sem_test_ll, label="Test", fmt="or")
+
+    # Plot the means and standard errors of the means of the arrays in the first list in order
+    ax.errorbar([num + .15 for num in num_states_2cv], means_train_ll-np.mean(np.array(means_train_ll_base)), yerr=sem_train_ll, label='Train', fmt="ok")
+
+    
+    # else:
+    #     test_ll_ = np.array(test_ll)
+    #     train_ll_ = np.array(train_ll)
+    #     # Calculate the mean of each array in the two lists
+    #     means_test_ll = [np.mean(arr) for arr in test_ll]
+    #     sem_test_ll = [sem(arr) for arr in test_ll]
+    #     sem_test_ll = np.nan_to_num(sem_test_ll, nan=0)
+
+    #     means_train_ll = [np.mean(arr) for arr in train_ll]
+    #     sem_train_ll = [sem(arr) for arr in train_ll]
+    #     sem_train_ll = np.nan_to_num(sem_train_ll, nan=0)
+
+    #     for i in num_states_2cv:
+    #         ax.plot(np.ones((n_repeats,))*(i), test_ll_[i-1,:]-np.mean(means_test_ll),'or', alpha=.25)
+    #         ax.plot(np.ones((n_repeats,))*(i), train_ll_[i-1,:]-np.mean(means_test_ll),'ok', alpha=.25)
+
+    #     # Plot the means and standard errors of the means of the arrays in the first list in order
+    #     ax.errorbar([num + .15 for num in num_states_2cv], means_test_ll, yerr=sem_test_ll, label="Test", fmt="or")
+
+    #     # Plot the means and standard errors of the means of the arrays in the first list in order
+    #     ax.errorbar([num + .15 for num in num_states_2cv], means_train_ll, yerr=sem_train_ll, label="Train", fmt="ok")
+
+    plt.xlabel("#latent")
+    plt.ylabel("Relative LL/trial")
+    plt.title("Model selection - cross validation")
+    plt.xticks(num_states_2cv)
+
+    plt.legend()
+    plt.show()
+
 
 
 
